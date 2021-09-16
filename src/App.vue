@@ -2,7 +2,7 @@
   <div class="container">
     <global-header :user="currentUser"></global-header>
     <!-- <column-list :list="list"></column-list> -->
-    <form>
+    <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">电子邮箱</label>
         <validate-input placeholder="请输入邮箱地址" type="text" :rules="emailRules" v-model="emailValue"></validate-input>
@@ -11,7 +11,10 @@
         <label class="form-label">密码</label>
         <validate-input placeholder="请输入密码" type="password" :rules="pwdRules" v-model="pwdValue"></validate-input>
       </div>
-    </form>
+      <template v-slot:submit>
+        <span class="btn btn-danger">Submit</span>
+      </template>
+    </validate-form>
   </div>
 </template>
 
@@ -21,6 +24,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 // import ColumnList, { ColumnProps } from './components/Column List.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
 import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
+import ValidateForm from './components/ValidateForm.vue'
 
 const currentUser: UserProps = {
   isLogin: true,
@@ -56,7 +60,7 @@ const currentUser: UserProps = {
 const emailValidate = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
 export default defineComponent({
   name: 'App',
-  components: { GlobalHeader, ValidateInput },
+  components: { GlobalHeader, ValidateInput, ValidateForm },
   setup () {
     const emailValue = ref('liang')
     const pwdValue = ref('')
@@ -69,6 +73,10 @@ export default defineComponent({
     const pwdRules: RulesProp = [
       { type: 'required', message: '密码不能为空' }
     ]
+    // 监听子组件变化：
+    const onFormSubmit = (result: boolean) => {
+      console.log('=>>>>', result)
+    }
     const emailRef = reactive({
       val: '',
       error: false,
@@ -84,7 +92,7 @@ export default defineComponent({
         emailRef.message = 'should be valid email'
       }
     }
-    return { currentUser, emailRef, validateEmail, emailRules, emailValue, pwdRules, pwdValue }
+    return { currentUser, emailRef, validateEmail, emailRules, emailValue, pwdRules, pwdValue, onFormSubmit }
   }
 })
 </script>
