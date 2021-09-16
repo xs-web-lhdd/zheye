@@ -63,8 +63,8 @@ export default defineComponent({
   components: { GlobalHeader, ValidateInput, ValidateForm },
   setup () {
     const inputRef = ref<any>()
-    const emailValue = ref('123@test.com')
-    const pwdValue = ref('123')
+    const emailValue = ref('')
+    const pwdValue = ref('')
     // 邮箱校验规则：
     const emailRules: RulesProp = [
       { type: 'required', message: '电子邮箱地址不能为空哟！' },
@@ -76,8 +76,7 @@ export default defineComponent({
     ]
     // 监听子组件变化：
     const onFormSubmit = (result: boolean) => {
-      console.log(inputRef.value.validateInput())
-      console.log('=>>>>', result)
+      console.log('result=>>>', result)
     }
     const emailRef = reactive({
       val: '',

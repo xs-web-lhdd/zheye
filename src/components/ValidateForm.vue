@@ -14,18 +14,25 @@
 import { defineComponent, onUnmounted } from 'vue'
 import mitt from 'mitt'
 export const emitter = mitt()
+// 定义类型：
+type ValidateFun = () => boolean
+
 export default defineComponent({
   emits: ['form-submit'],
   setup (props, context) {
     const submitForm = () => {
-      context.emit('form-submit', true)
+      const result = funcArr.map(func => func()).every(result => result)
+      context.emit('form-submit', result)
     }
-    const callback = (test: any) => {
-      console.log(test)
+    // 通过 mitt 实现父子组件的通信
+    let funcArr: ValidateFun[] = []
+    const callback = (func: any) => {
+      funcArr.push(func)
     }
     emitter.on('form-item-created', callback)
     onUnmounted(() => {
       emitter.off('form-item-created', callback)
+      funcArr = []
     })
     return { submitForm }
   }
