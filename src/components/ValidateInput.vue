@@ -13,7 +13,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive } from 'vue'
+import { defineComponent, PropType, reactive, onMounted } from 'vue'
+import { emitter } from './ValidateForm.vue'
 const emailValidate = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
 
 interface RuleProp {
@@ -42,7 +43,7 @@ export default defineComponent({
     // 验证：
     const validateInput = () => {
       if (props.rules) {
-        const addPassed = props.rules.every(rule => {
+        const allPassed = props.rules.every(rule => {
           let passed = true
           inputRef.message = rule.message
           switch (rule.type) {
@@ -57,9 +58,14 @@ export default defineComponent({
           }
           return passed
         })
-        inputRef.error = !addPassed
+        inputRef.error = !allPassed
+        return allPassed
       }
+      return true
     }
+    onMounted(() => {
+      emitter.emit('form-item-created', inputRef.val)
+    })
     return { inputRef, validateInput, updateValue }
   }
 })

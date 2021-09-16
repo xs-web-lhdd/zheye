@@ -5,7 +5,7 @@
     <validate-form @form-submit="onFormSubmit">
       <div class="mb-3">
         <label class="form-label">电子邮箱</label>
-        <validate-input placeholder="请输入邮箱地址" type="text" :rules="emailRules" v-model="emailValue"></validate-input>
+        <validate-input ref="inputRef" placeholder="请输入邮箱地址" type="text" :rules="emailRules" v-model="emailValue"></validate-input>
       </div>
       <div class="mb-3">
         <label class="form-label">密码</label>
@@ -62,8 +62,9 @@ export default defineComponent({
   name: 'App',
   components: { GlobalHeader, ValidateInput, ValidateForm },
   setup () {
-    const emailValue = ref('liang')
-    const pwdValue = ref('')
+    const inputRef = ref<any>()
+    const emailValue = ref('123@test.com')
+    const pwdValue = ref('123')
     // 邮箱校验规则：
     const emailRules: RulesProp = [
       { type: 'required', message: '电子邮箱地址不能为空哟！' },
@@ -75,6 +76,7 @@ export default defineComponent({
     ]
     // 监听子组件变化：
     const onFormSubmit = (result: boolean) => {
+      console.log(inputRef.value.validateInput())
       console.log('=>>>>', result)
     }
     const emailRef = reactive({
@@ -92,7 +94,7 @@ export default defineComponent({
         emailRef.message = 'should be valid email'
       }
     }
-    return { currentUser, emailRef, validateEmail, emailRules, emailValue, pwdRules, pwdValue, onFormSubmit }
+    return { currentUser, emailRef, validateEmail, emailRules, emailValue, pwdRules, pwdValue, onFormSubmit, inputRef }
   }
 })
 </script>
