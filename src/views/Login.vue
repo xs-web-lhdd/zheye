@@ -18,12 +18,14 @@
 import { defineComponent, reactive, ref } from 'vue'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
+import { useRouter } from 'vue-router'
 
 const emailValidate = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
 export default defineComponent({
   name: 'App',
   components: { ValidateInput, ValidateForm },
   setup () {
+    const router = useRouter()
     const inputRef = ref<any>()
     const emailValue = ref('')
     const pwdValue = ref('')
@@ -39,6 +41,9 @@ export default defineComponent({
     // 监听子组件变化：
     const onFormSubmit = (result: boolean) => {
       console.log('result=>>>', result)
+      if (result) {
+        router.push('/')
+      }
     }
     const emailRef = reactive({
       val: '',

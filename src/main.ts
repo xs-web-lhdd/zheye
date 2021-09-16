@@ -4,6 +4,7 @@ import App from './App.vue'
 // 导入组件：
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import Column from './components/ColumnDeatil/ColumnDetail.vue'
 // 全局导入 bootstrap 样式
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/column/:id',
+      name: 'Column',
+      component: Column
     }
   ]
 })
