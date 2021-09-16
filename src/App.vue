@@ -5,17 +5,11 @@
     <form>
       <div class="mb-3">
         <label class="form-label">电子邮箱</label>
-        <validate-input :rules="emailRules" v-model="emailValue"></validate-input>
-        {{emailValue}}
+        <validate-input placeholder="请输入邮箱地址" type="text" :rules="emailRules" v-model="emailValue"></validate-input>
       </div>
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input @blur="validateEmail" v-model="emailRef.val" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div class="form-text" v-if="emailRef.error">{{emailRef.message}}</div>
-      </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label class="form-label">密码</label>
+        <validate-input placeholder="请输入密码" type="password" :rules="pwdRules" v-model="pwdValue"></validate-input>
       </div>
     </form>
   </div>
@@ -65,9 +59,15 @@ export default defineComponent({
   components: { GlobalHeader, ValidateInput },
   setup () {
     const emailValue = ref('liang')
+    const pwdValue = ref('')
+    // 邮箱校验规则：
     const emailRules: RulesProp = [
       { type: 'required', message: '电子邮箱地址不能为空哟！' },
       { type: 'email', message: '请输入正确的邮箱格式' }
+    ]
+    // 密码校验规则：
+    const pwdRules: RulesProp = [
+      { type: 'required', message: '密码不能为空' }
     ]
     const emailRef = reactive({
       val: '',
@@ -84,7 +84,7 @@ export default defineComponent({
         emailRef.message = 'should be valid email'
       }
     }
-    return { currentUser, emailRef, validateEmail, emailRules, emailValue }
+    return { currentUser, emailRef, validateEmail, emailRules, emailValue, pwdRules, pwdValue }
   }
 })
 </script>
