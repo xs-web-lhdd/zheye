@@ -4,6 +4,10 @@
     <!-- <column-list :list="list"></column-list> -->
     <form>
       <div class="mb-3">
+        <label class="form-label">电子邮箱</label>
+        <validate-input :rules="emailRules"></validate-input>
+      </div>
+      <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
         <input @blur="validateEmail" v-model="emailRef.val" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
         <div class="form-text" v-if="emailRef.error">{{emailRef.message}}</div>
@@ -21,6 +25,7 @@ import { defineComponent, reactive } from 'vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 // import ColumnList, { ColumnProps } from './components/Column List.vue'
 import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
+import ValidateInput, { RulesProp } from './components/ValidateInput.vue'
 
 const currentUser: UserProps = {
   isLogin: true,
@@ -56,8 +61,12 @@ const currentUser: UserProps = {
 const emailValidate = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
 export default defineComponent({
   name: 'App',
-  components: { GlobalHeader },
+  components: { GlobalHeader, ValidateInput },
   setup () {
+    const emailRules: RulesProp = [
+      { type: 'required', message: '电子邮箱地址不能为空哟！' },
+      { type: 'email', message: '请输入正确的邮箱格式' }
+    ]
     const emailRef = reactive({
       val: '',
       error: false,
@@ -73,7 +82,7 @@ export default defineComponent({
         emailRef.message = 'should be valid email'
       }
     }
-    return { currentUser, emailRef, validateEmail }
+    return { currentUser, emailRef, validateEmail, emailRules }
   }
 })
 </script>
