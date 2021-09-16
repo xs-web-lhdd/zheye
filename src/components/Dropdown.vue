@@ -1,19 +1,15 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" ref="dropDownRef">
     <a href="#" class="btn btn-outline-light my-2 dropdown-toggle" @click.prevent="toggleOpen">{{title}}</a>
     <ul class="dropdown-menu" :style="{display: 'block'}" v-if="isOpen">
-      <li class="dropdown-item">
-        <a href="#">新建文章</a>
-      </li>
-      <li class="dropdown-item">
-        <a href="#">编辑资料</a>
-      </li>
+      <slot></slot>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import useClickOutside from './useClickOutside'
 
 export default defineComponent({
   naem: 'Dropdown',
@@ -28,7 +24,16 @@ export default defineComponent({
     const toggleOpen = () => {
       isOpen.value = !isOpen.value
     }
-    return { isOpen, toggleOpen }
+    // 获取ref节点：
+    const dropDownRef = ref<null | HTMLElement>(null)
+    // 点击其他区域隐藏：
+    const isClickOutside = useClickOutside(dropDownRef)
+    watch(isClickOutside, () => {
+      if (isOpen.value && isClickOutside.value) {
+        isOpen.value = false
+      }
+    })
+    return { isOpen, toggleOpen, dropDownRef }
   }
 })
 </script>
