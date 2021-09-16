@@ -2,9 +2,10 @@
   <div class="validate-input-container pb-3">
     <input
       @blur="validateInput"
-      v-model="inputRef.val"
+      :value="inputRef.val"
       :class="{'is-invalid': inputRef.error}"
       class="form-control"
+      @input="updateValue"
     >
     <span v-if="inputRef.error" class="invalid-feedback">{{inputRef.message}}</span>
   </div>
@@ -21,14 +22,22 @@ interface RuleProp {
 export type RulesProp = RuleProp[]
 export default defineComponent({
   props: {
-    rules: Array as PropType<RulesProp>
+    rules: Array as PropType<RulesProp>,
+    modelValue: String
   },
-  setup (props) {
+  setup (props, context) {
     const inputRef = reactive({
-      val: '',
+      val: props.modelValue || '', // 添加默认值
       error: false,
       message: ''
     })
+    // 实现双向绑定：
+    const updateValue = (e: KeyboardEvent) => {
+      const targetValue = (e.target as HTMLInputElement).value
+      inputRef.val = targetValue
+      context.emit('update:modelValue', targetValue)
+    }
+    // 验证：
     const validateInput = () => {
       if (props.rules) {
         const addPassed = props.rules.every(rule => {
@@ -49,7 +58,7 @@ export default defineComponent({
         inputRef.error = !addPassed
       }
     }
-    return { inputRef, validateInput }
+    return { inputRef, validateInput, updateValue }
   }
 })
 </script>
