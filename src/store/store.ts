@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+import { get } from '../utils/request'
 
 import { testData, testPosts, ColumnProps, PostProps } from '../TS/testData'
 interface UserProps {
@@ -10,13 +11,15 @@ interface UserProps {
 export interface GlobalDateProps {
   columns: ColumnProps[],
   posts: PostProps[],
-  user: UserProps
+  user: UserProps,
+  loading: boolean
 }
 const store = createStore<GlobalDateProps>({
   state: {
     columns: testData,
     posts: testPosts,
-    user: { isLogin: false, name: 'liang', columnId: 1 }
+    user: { isLogin: false, name: 'liang', columnId: 1 },
+    loading: false
   },
   mutations: {
     login (state) {
@@ -24,6 +27,21 @@ const store = createStore<GlobalDateProps>({
     },
     createPost (state, newPost) {
       state.posts.push(newPost)
+    },
+    getColumn (state, result) {
+      state.columns = result
+    },
+    // 加载。。。
+    loading (state, value) {
+      state.loading = value
+    }
+  },
+  actions: {
+    // 获取所有专刊：
+    async getColumn (state) {
+      const result: any = await get('/column')
+      const { data } = result
+      state.commit('getColumn', data)
     }
   },
   getters: {

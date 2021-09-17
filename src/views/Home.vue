@@ -1,6 +1,6 @@
 <template>
   <section class="py-5 text-center container">
-    <h1>{{bigLen}}</h1>
+    <h1 v-if="loading">加载中......</h1>
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <img src="../assets/callout.svg" alt="callout" class="w-50"/>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue'
+import { defineComponent, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { GlobalDateProps } from '../store/store'
 import ColumnList from '../components/Column List.vue'
@@ -26,8 +26,11 @@ export default defineComponent({
   setup () {
     const store = useStore<GlobalDateProps>()
     const list = computed(() => store.state.columns)
-    const bigLen = computed(() => store.getters.biggerColumnLen)
-    return { list, bigLen }
+    const loading = computed(() => store.state.loading)
+    onMounted(() => {
+      store.dispatch('getColumn')
+    })
+    return { list, loading }
   }
 })
 </script>
