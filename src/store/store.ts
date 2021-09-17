@@ -4,7 +4,8 @@ import { testData, testPosts, ColumnProps, PostProps } from '../TS/testData'
 interface UserProps {
   isLogin: boolean,
   name?: string,
-  age?: number
+  age?: number,
+  columnId?: number
 }
 export interface GlobalDateProps {
   columns: ColumnProps[],
@@ -15,11 +16,14 @@ const store = createStore<GlobalDateProps>({
   state: {
     columns: testData,
     posts: testPosts,
-    user: { isLogin: false }
+    user: { isLogin: true, name: 'liang', columnId: 1 }
   },
   mutations: {
     login (state) {
       state.user = { ...state.user, isLogin: true, name: 'liang' }
+    },
+    createPost (state, newPost) {
+      state.posts.push(newPost)
     }
   },
   getters: {

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Column from '../components/ColumnDeatil/ColumnDetail.vue'
+import CreatePost from '../views/CreatePost.vue'
 
 const routerHistory = createWebHistory()
 const router = createRouter({
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/column/:id',
       name: 'Column',
       component: Column
+    },
+    {
+      path: '/create',
+      name: 'CreatePost',
+      component: CreatePost
     }
   ]
 })
