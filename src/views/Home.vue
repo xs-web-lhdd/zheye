@@ -1,6 +1,5 @@
 <template>
   <section class="py-5 text-center container">
-    <h1 v-if="loading">加载中......</h1>
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <img src="../assets/callout.svg" alt="callout" class="w-50"/>
@@ -26,11 +25,10 @@ export default defineComponent({
   setup () {
     const store = useStore<GlobalDateProps>()
     const list = computed(() => store.state.columns)
-    const loading = computed(() => store.state.loading)
     onMounted(() => {
       store.dispatch('getColumn')
     })
-    return { list, loading }
+    return { list }
   }
 })
 </script>

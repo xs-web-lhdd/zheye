@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <global-header :user="currentUser"></global-header>
+    <Loader text="拼命加载中" background="rgba(0, 0, 0, .1)" v-if="loading"></Loader>
     <router-view></router-view>
     <footer class="text-center py-4 text-secondary bg-light mt-6">
       <small>
@@ -21,14 +22,16 @@ import { defineComponent, computed } from 'vue'
 import { useStore } from 'vuex'
 import { GlobalDateProps } from './store/store'
 import GlobalHeader from './components/GlobalHeader.vue'
+import Loader from './components/Loading/Loading.vue'
 
 export default defineComponent({
   name: 'App',
-  components: { GlobalHeader },
+  components: { GlobalHeader, Loader },
   setup () {
     const store = useStore<GlobalDateProps>()
     const currentUser = computed(() => store.state.user)
-    return { currentUser }
+    const loading = computed(() => store.state.loading)
+    return { currentUser, loading }
   }
 })
 </script>
