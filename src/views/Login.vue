@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
+import { useStore } from 'vuex'
 import ValidateInput, { RulesProp } from '../components/ValidateInput.vue'
 import ValidateForm from '../components/ValidateForm.vue'
 import { useRouter } from 'vue-router'
@@ -25,6 +26,7 @@ export default defineComponent({
   name: 'App',
   components: { ValidateInput, ValidateForm },
   setup () {
+    const store = useStore()
     const router = useRouter()
     const inputRef = ref<any>()
     const emailValue = ref('')
@@ -40,9 +42,10 @@ export default defineComponent({
     ]
     // 监听子组件变化：
     const onFormSubmit = (result: boolean) => {
-      console.log('result=>>>', result)
+      // console.log('result=>>>', result)
       if (result) {
         router.push('/')
+        store.commit('login')
       }
     }
     const emailRef = reactive({
