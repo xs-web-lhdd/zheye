@@ -4,6 +4,7 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <img src="../assets/callout.svg" alt="callout" class="w-50"/>
         <h2 class="font-weight-light">随心写作，自由表达</h2>
+        <Upload action="https://www.liang666.oss-cn-beijing.aliyuncs.com"></Upload>
         <p>
           <router-link to="/create" class="btn btn-primary my-2">开始写文章</router-link>
         </p>
@@ -19,9 +20,10 @@ import { defineComponent, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { GlobalDateProps } from '../store/store'
 import ColumnList from '../components/Column List.vue'
+import Upload from '../components/UpLoad/UpLoad.vue'
 
 export default defineComponent({
-  components: { ColumnList },
+  components: { ColumnList, Upload },
   setup () {
     const store = useStore<GlobalDateProps>()
     const list = computed(() => store.state.columns)
