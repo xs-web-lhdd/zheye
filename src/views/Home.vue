@@ -4,7 +4,14 @@
       <div class="col-lg-6 col-md-8 mx-auto">
         <img src="../assets/callout.svg" alt="callout" class="w-50"/>
         <h2 class="font-weight-light">随心写作，自由表达</h2>
-        <Upload :beforeUpload="beforeUpload" @file-uploaded="onFileUploaded" @file-uploaded-error="onFileUploadedError" action="https://www.liang666.oss-cn-beijing.aliyuncs.com"></Upload>
+        <Upload :beforeUpload="beforeUpload" @file-uploaded="onFileUploaded" @file-uploaded-error="onFileUploadedError" action="https://www.liang666.oss-cn-beijing.aliyuncs.com">
+          <h2>点击上传</h2>
+          <template #loading>
+            <div class="spinner-border" role="status">
+              <span class="sr-only">Loading......</span>
+            </div>
+          </template>
+        </Upload>
         <p>
           <router-link to="/create" class="btn btn-primary my-2">开始写文章</router-link>
         </p>

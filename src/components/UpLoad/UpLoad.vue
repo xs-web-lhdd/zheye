@@ -1,10 +1,18 @@
 <template>
   <div class="file-upload">
-    <div class="btn btn-primary" @click.prevent="triggerUpload">
-      <span v-if="fileStatus === 'loading'">正在上传......</span>
-      <span v-else-if="fileStatus === 'success'">上传成功</span>
-      <span v-else-if="fileStatus === 'error'">上传失败</span>
-      <span v-else>点击上传</span>
+    <div class="file-upload-container" @click.prevent="triggerUpload">
+      <slot v-if="fileStatus === 'loading'" name="loading">
+        <button class="btn btn-primary" disabled>正在上传......</button>
+      </slot>
+      <slot v-else-if="fileStatus === 'success'" name="uploaded">
+        <button class="btn btn-primary">上传成功</button>
+      </slot>
+      <slot v-else-if="fileStatus === 'error'" name="uploaedErr">
+        <button class="btn btn-primary">上传失败</button>
+      </slot>
+      <slot v-else name="default">
+        <button class="btn btn-primary">点击上传</button>
+      </slot>
     </div>
     <input
       type="file"
