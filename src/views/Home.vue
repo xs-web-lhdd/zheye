@@ -5,11 +5,8 @@
         <img src="../assets/callout.svg" alt="callout" class="w-50"/>
         <h2 class="font-weight-light">随心写作，自由表达</h2>
         <Upload :beforeUpload="beforeUpload" @file-uploaded="onFileUploaded" @file-uploaded-error="onFileUploadedError" action="https://www.liang666.oss-cn-beijing.aliyuncs.com">
-          <h2>点击上传</h2>
-          <template #loading>
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading......</span>
-            </div>
+          <template #uploaded="dataProps">
+            <img :src="dataProps.uploadedData.url" width="500"/>
           </template>
         </Upload>
         <p>
